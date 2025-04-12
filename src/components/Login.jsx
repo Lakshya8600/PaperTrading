@@ -1,6 +1,6 @@
 import React from 'react'
 import Navbar from './Navbar'
-import Footer from './Footer'
+
 
 // const Login = () => {
 //   return (
@@ -37,7 +37,6 @@ const Login = () => {
           Don&apos;t have an account? <a href="#" className="signup-link">Sign up</a>
         </p> */}
       </div>
-      <Footer/>
     </>
   )
 }
