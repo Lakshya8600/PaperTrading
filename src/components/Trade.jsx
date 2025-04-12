@@ -1,246 +1,76 @@
 import React from "react";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
-import { useEffect, useState } from "react";
+
+
 
 const Trade = () => {
-
   
+
+
   return (
     <>
       <Navbar />
-      <div className="owncontainer">
-        <div id="chart">
-          <div className="h-screen flex justify-center items-center bg-gray-100 timeline">
-            <button
-              className="
-          px-2 py-1 
-          rounded-lg 
-          bg-gradient-to-br from-blue-400 to-cyan-400 
-          text-white font-bold text-lg  
-          shadow-lg 
-          transition-all duration-300 ease-in-out 
-          hover:translate-y-[-3px] hover:shadow-2xl
-          timelineBt
-        "
-            >
-              1D
-            </button>
-            <button
-              className="
-          px-2 py-1 
-          rounded-lg 
-          bg-gradient-to-br from-blue-400 to-cyan-400 
-          text-white font-bold text-lg  
-          shadow-lg 
-          transition-all duration-300 ease-in-out 
-          hover:translate-y-[-3px] hover:shadow-2xl
-          timelineBt
-        "
-            >
-              1D
-            </button>
-            <button
-              className="
-          px-2 py-1 
-          rounded-lg 
-          bg-gradient-to-br from-blue-400 to-cyan-400 
-          text-white font-bold text-lg  
-          shadow-lg 
-          transition-all duration-300 ease-in-out 
-          hover:translate-y-[-3px] hover:shadow-2xl
-          timelineBt
-        "
-            >
-              1D
-            </button>
-            <button
-              className="
-          px-2 py-1 
-          rounded-lg 
-          bg-gradient-to-br from-blue-400 to-cyan-400 
-          text-white font-bold text-lg  
-          shadow-lg 
-          transition-all duration-300 ease-in-out 
-          hover:translate-y-[-3px] hover:shadow-2xl
-          timelineBt
-        "
-            >
-              1D
-            </button>
-            <button
-              className="
-          px-2 py-1 
-          rounded-lg 
-          bg-gradient-to-br from-blue-400 to-cyan-400 
-          text-white font-bold text-lg  
-          shadow-lg 
-          transition-all duration-300 ease-in-out 
-          hover:translate-y-[-3px] hover:shadow-2xl
-          timelineBt
-        "
-            >
-              1D
-            </button>
-          </div>
-        </div>
-        <div
-          style={{
-            fontFamily: "Arial, sans-serif",
-            background: "#f4f4f4",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            height: "100vh",
-            margin: 0,
-          }}
-        >
-          <form
-            style={{
-              background: "#fff",
-              padding: "30px",
-              borderRadius: "12px",
-              boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
-              minWidth: "300px",
-              position: "relative",
-            }}
-          >
-            <h2 style={{ marginBottom: "20px", textAlign: "center" }}>
-              Trade Panel
-            </h2>
 
-            <label style={{ display: "block", marginBottom: "10px" }}>
-              Quantity
-            </label>
+      <div className="min-h-screen  text-white px-4 py-8">
+        {/* Chart timeline buttons */}
+        <div className="flex justify-center items-center flex-wrap gap-4 mb-12">
+          {['1D', '1W', '1M', '1Y'].map((label, index) => (
+            <button
+              key={index}
+              className="px-4 py-2 rounded-lg bg-gradient-to-br from-blue-400 to-cyan-400 text-white font-bold text-lg shadow-md transition-transform duration-300 ease-in-out hover:-translate-y-1 hover:shadow-xl"
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+
+        {/* Trade Panel */}
+        <div className="flex justify-center items-center">
+          <form className="bg-gray-800 p-8 rounded-xl shadow-lg w-full max-w-md">
+            <h2 className="text-2xl font-semibold mb-6 text-center text-green-400">Trade Panel</h2>
+
+            <label className="block mb-2 font-medium">Quantity</label>
             <input
               type="number"
               name="quantity"
               placeholder="Enter quantity"
-              style={{
-                width: "100%",
-                padding: "10px",
-                marginBottom: "20px",
-                borderRadius: "6px",
-                border: "1px solid #ccc",
-              }}
+              className="w-full p-3 mb-6 rounded-md bg-gray-700 text-white placeholder-gray-400 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-green-400"
             />
 
-            <label style={{ display: "block", marginBottom: "10px" }}>
-              Price
-            </label>
+            <label className="block mb-2 font-medium">Price</label>
             <input
               type="number"
               name="price"
               placeholder="Enter price"
-              style={{
-                width: "100%",
-                padding: "10px",
-                marginBottom: "20px",
-                borderRadius: "6px",
-                border: "1px solid #ccc",
-              }}
+              className="w-full p-3 mb-6 rounded-md bg-gray-700 text-white placeholder-gray-400 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-green-400"
             />
 
-            <div style={{ marginBottom: "20px" }}>
-              <label style={{ display: "block", marginBottom: "10px" }}>
-                Action
-              </label>
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  background: "#e0e0e0",
-                  borderRadius: "20px",
-                  overflow: "hidden",
-                }}
-              >
-                <label
-                  style={{
-                    flex: 1,
-                    textAlign: "center",
-                    padding: "10px",
-                    cursor: "pointer",
-                  }}
-                >
-                  <input
-                    type="radio"
-                    name="action"
-                    value="buy"
-                    style={{ display: "none" }}
-                    defaultChecked
-                  />
-                  <span
-                    style={{
-                      display: "inline-block",
-                      width: "100%",
-                      padding: "10px 0",
-                      background: "#4CAF50",
-                      color: "white",
-                      borderRadius: "20px",
-                    }}
-                  >
-                    Buy
-                  </span>
+            <div className="mb-6">
+              <label className="block mb-2 font-medium">Action</label>
+              <div className="flex bg-gray-700 rounded-full overflow-hidden">
+                <label className="flex-1 text-center cursor-pointer">
+                  <input type="radio" name="action" value="buy" defaultChecked className="hidden" />
+                  <span className="block py-2 bg-green-500 text-white font-semibold">Buy</span>
                 </label>
-                <label
-                  style={{
-                    flex: 1,
-                    textAlign: "center",
-                    padding: "10px",
-                    cursor: "pointer",
-                  }}
-                >
-                  <input
-                    type="radio"
-                    name="action"
-                    value="sell"
-                    style={{ display: "none" }}
-                  />
-                  <span
-                    style={{
-                      display: "inline-block",
-                      width: "100%",
-                      padding: "10px 0",
-                      color: "#333",
-                    }}
-                  >
-                    Sell
-                  </span>
+                <label className="flex-1 text-center cursor-pointer">
+                  <input type="radio" name="action" value="sell" className="hidden" />
+                  <span className="block py-2 text-gray-300">Sell</span>
                 </label>
               </div>
             </div>
 
             <button
               type="submit"
-              style={{
-                width: "100%",
-                padding: "12px",
-                background: "#007BFF",
-                color: "white",
-                border: "none",
-                borderRadius: "6px",
-                cursor: "pointer",
-              }}
+              className="w-full bg-green-500 hover:bg-green-600 text-white py-3 rounded-lg font-semibold transition duration-300"
             >
               Submit
             </button>
 
-            <div
-              style={{
-                position: "absolute",
-                bottom: "-30px",
-                left: "20px",
-                fontSize: "14px",
-                color: "#555",
-              }}
-            >
-              Balance: ₹10,000
-            </div>
+            <p className="text-sm text-gray-400 mt-4 text-left">Balance: ₹10,000</p>
           </form>
         </div>
       </div>
-
-      <Footer />
     </>
   );
 };

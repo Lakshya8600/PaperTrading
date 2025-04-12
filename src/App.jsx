@@ -1,6 +1,6 @@
 import { useState } from "react";
 import "./App.css";
-import Navbar from "./components/Navbar";
+import Home from "./components/Home";
 import Trade from "./components/Trade";
 import Login from "./components/Login";
 import Report from "./components/Report";
@@ -13,9 +13,10 @@ function App() {
 
   return (
     <>
+      <div className="class min-h-[82vh]">
       <Router>
         <Routes>
-          <Route path="/" element={<Navbar />} />
+          <Route path="/" element={<Home />} />
           <Route path="/trade" element={<Trade />} />
           <Route path="/login" element={<Login />} /> 
           <Route path="/report" element={<Report />} />
@@ -23,6 +24,7 @@ function App() {
           <Route path="*" element={<Notfound />} />
         </Routes>
       </Router>
+      </div>
     </>
   );
 }

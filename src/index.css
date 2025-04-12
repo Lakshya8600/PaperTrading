@@ -1,6 +1,6 @@
 /* Importing Google Fonts - Montserrat */
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
-* {
+/* * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -15,7 +15,8 @@ body {
 #root {
   width: 100%;
   padding: 0.6rem;
-}
+} */
+
 .login-container {
   margin: 0 auto;
   max-width: 410px;
