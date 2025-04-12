@@ -1,13 +1,15 @@
 import React from 'react';
 import Navbar from './Navbar';
+import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 
 const Home = () => {
   return (
-    <div className="bg-gray-950 text-white min-h-screen">
+    <div className="bg-gray-950 text-white min-h-screen flex flex-col">
       <Navbar />
 
       {/* Hero Section */}
-      <section className="flex flex-col md:flex-row items-center justify-between px-10 py-20 max-w-7xl mx-auto">
+      <section className="flex flex-col-reverse md:flex-row items-center justify-between px-10 py-20 max-w-7xl mx-auto flex-grow">
+        {/* Text Content */}
         <div className="md:w-1/2 text-center md:text-left">
           <h1 className="text-5xl md:text-6xl font-extrabold leading-tight mb-6">
             <span className="text-green-400">Practice Trading</span> <br /> Without Risk
@@ -22,8 +24,15 @@ const Home = () => {
             Start Paper Trading
           </a>
         </div>
-        <div className="md:w-1/2 mt-10 md:mt-0 flex justify-center">
-          <img src="/trading-illustration.svg" alt="Trading" className="w-full max-w-md" />
+
+        {/* Animation */}
+        <div className="md:w-1/2 flex justify-start md:pl-12 scale-[1.3] md:scale-[1.4] mb-10 md:mb-0">
+          <DotLottieReact
+            src="https://lottie.host/574817b5-5607-4779-b801-d8dccbb41d77/R6c9Dwf4at.lottie"
+            loop
+            autoplay
+            style={{ width: '100%', maxWidth: '500px', height: 'auto' }}
+          />
         </div>
       </section>
 
