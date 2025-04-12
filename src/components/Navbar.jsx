@@ -10,8 +10,9 @@ export default function Navbar() {
         crossorigin="anonymous"
       ></link>
       <nav class="navbar navbar-expand-lg navbar-light bg-light" >
+        <img src="logo.svg" className="w-15" alt="" />
         <a class="navbar-brand" href="#">
-          Navbar
+          TradeSathi
         </a>
         <button
           class="navbar-toggler"
