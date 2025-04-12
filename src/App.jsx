@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./App.css";
-import Navbar from "./components/navbar/navbar";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Navbar from "./components/Navbar";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -11,11 +11,11 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<Navbar />} />
-          <Route path="/trade" element={<Navbar />} />
+          {/* <Route path="/trade" element={<t />} />
           <Route path="/login" element={<Navbar />} />
           <Route path="/report" element={<Contact />} />
           <Route path="/dashboard" element={<Contact />} />
-          <Route path="*" element={<NotFound />} />
+          <Route path="*" element={<NotFound />} /> */}
         </Routes>
       </Router>
 
