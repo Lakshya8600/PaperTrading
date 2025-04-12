@@ -7,7 +7,7 @@ import Searchbox from './searchbox'
 const Navbar = () => {
   return (
     <div>
-      
+        
     </div>
   )
 }
