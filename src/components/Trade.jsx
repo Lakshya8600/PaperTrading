@@ -7,7 +7,7 @@ const Trade = () => {
     <>
       <Navbar/>
       <div>
-      <h1>Login</h1>
+      <h1>Trade</h1>
       </div>
       <Footer/>
     </>
