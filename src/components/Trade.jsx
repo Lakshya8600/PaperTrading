@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import ApexChart from "react-apexcharts";
 
 const Trade = ({ symbol }) => {
+  const [currentPrice, setCurrentPrice] = useState(null);
+  const [companyName, setCompanyName] = useState(symbol); // fallback to symbol
   const [range, setRange] = useState("6mo");
   const [interval, setInterval] = useState("1d");
   const [series, setSeries] = useState([]);
@@ -30,26 +32,41 @@ const Trade = ({ symbol }) => {
         const utcDate = new Date(timestamp);
         const istOffset = 5.5 * 60 * 60 * 1000; // 5.5 hours in milliseconds
         const istDate = new Date(utcDate.getTime() + istOffset);
-      
+
         return {
           x: istDate,
           y: [opens[index], highs[index], lows[index], closes[index]],
         };
       });
-      
+
 
       setSeries([{ data: candlestickData }]);
+
+      //  Set the latest close price here
+      const latestClose = closes[closes.length - 1];
+      setCurrentPrice(latestClose);
+
+      // Optional: Set company name if API includes it
+      if (rawData.meta && rawData.meta.shortName) {
+        setCompanyName(rawData.meta.shortName);
+      } else {
+        setCompanyName(symbol);
+      }
+
     } catch (err) {
       console.error("Error fetching chart:", err);
       setSeries([]);
     } finally {
       setLoading(false);
     }
+
   };
 
   useEffect(() => {
     fetchData();
   }, [symbol, range, interval]);
+
+  
 
   const options = {
     chart: {
@@ -115,6 +132,18 @@ const Trade = ({ symbol }) => {
             Search
           </button>
         </div>
+
+        <div className="text-center mb-6">
+          <h2 className="text-2xl font-semibold text-white">
+            {companyName} <span className="text-gray-400">({symbol})</span>
+          </h2>
+          {currentPrice && (
+            <p className="text-lg text-green-400 mt-1">
+              Current Price: ₹{Number(currentPrice).toFixed(2)}
+            </p>
+          )}
+        </div>
+
 
         {/* Chart */}
         <div className="bg-gray-900 p-4 rounded-xl shadow-xl mb-12">
