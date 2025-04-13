@@ -1,76 +1,19 @@
-
-import React, { useState } from "react";
+import React from "react";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
-import { useLocalStorage } from "usehooks-ts";
-import { useBalance } from "../hooks/useBalance";
+
+
 
 const Trade = () => {
-  const [balance, setBalance] = useBalance();
+  
 
-  const currentPrice = 1000;
-  const currentStock = "TATA";
-
-  const [object, setObject] = useLocalStorage("object", {
-    quantity: 0,
-    stock: currentStock,
-    price: currentPrice,
-    date: new Date().toLocaleDateString(),
-    display: 0,
-  });
-
-  const [activeBuy, setActiveBuy] = useLocalStorage("activeBuy", []);
-  const [activeSell, setActiveSell] = useLocalStorage("activeSell", []);
-  const [history, setHistory] = useLocalStorage("history", []);
-
-  const [action, setAction] = useState("buy");
-
-  // Function to handle closing a trade and adding it to history
-  const handleCloseTrade = (tradeIndex, type) => {
-    let trade;
-    let updatedList;
-
-    // Handle closing a Buy trade
-    if (type === "buy") {
-      updatedList = [...activeBuy];
-      trade = updatedList[tradeIndex];
-      updatedList.splice(tradeIndex, 1); // Remove the trade from activeBuy
-      setActiveBuy(updatedList);
-
-      // Add the closed trade to history
-      const completedTrade = {
-        ...trade,
-        action: "buy (closed)", // Mark the trade as closed
-        date: new Date().toLocaleDateString(),
-      };
-      setHistory((prevHistory) => [...prevHistory, completedTrade]);
-
-      // Update balance
-      setBalance((prevBalance) => prevBalance + trade.quantity * trade.price);
-    } else {
-      // Handle closing a Sell trade
-      updatedList = [...activeSell];
-      trade = updatedList[tradeIndex];
-      updatedList.splice(tradeIndex, 1); // Remove the trade from activeSell
-      setActiveSell(updatedList);
-
-      // Add the closed trade to history
-      const completedTrade = {
-        ...trade,
-        action: "sell (closed)", // Mark the trade as closed
-        date: new Date().toLocaleDateString(),
-      };
-      setHistory((prevHistory) => [...prevHistory, completedTrade]);
-
-      // Update balance
-      setBalance((prevBalance) => prevBalance - trade.quantity * trade.price);
-    }
-  };
 
   return (
     <>
       <Navbar />
+
       <div className="min-h-screen bg-gray-950 text-white px-4 py-12">
+        {/* Timeline buttons */}
         <div className="flex justify-center items-center flex-wrap gap-4 mb-10">
           {["1D", "1W", "1M", "1Y"].map((label, index) => (
             <button
@@ -87,7 +30,6 @@ const Trade = () => {
           <form className="bg-gray-900 p-8 rounded-xl shadow-xl w-full max-w-md space-y-6">
             <h2 className="text-3xl font-bold text-center text-green-400">Trade Panel</h2>
 
-            {/* Quantity Input */}
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-1">Quantity</label>
               <input
@@ -106,7 +48,6 @@ const Trade = () => {
               />
             </div>
 
-            {/* Price Input */}
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-1">Price</label>
               <input
@@ -124,7 +65,6 @@ const Trade = () => {
               />
             </div>
 
-            {/* Action Buttons */}
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-2">Action</label>
               <div className="flex rounded-full overflow-hidden border border-gray-700">
@@ -157,7 +97,6 @@ const Trade = () => {
               </div>
             </div>
 
-            {/* Submit Button */}
             <button
               type="submit"
               className="w-full bg-green-500 hover:bg-green-600 text-white py-3 rounded-lg font-semibold transition duration-300"
@@ -203,11 +142,12 @@ const Trade = () => {
               Submit Trade
             </button>
 
-            {/* Balance Info*/}
-            <p className="text-sm text-gray-400 text-left">Balance: ₹{balance}</p>
+            {/* Balance Info */}
+            <p className="text-sm text-gray-400 text-left">Balance: ₹10,000</p>
           </form>
         </div>
       </div>
+
     </>
   );
 };

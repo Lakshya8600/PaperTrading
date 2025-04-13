@@ -1,5 +1,5 @@
 import React from 'react';
-import Navbar from './Navbar';
+
 import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 import { useLocalStorage } from 'usehooks-ts';
 
@@ -13,7 +13,6 @@ const Home = () => {
 
   return (
     <div className="bg-gray-950 text-white min-h-screen flex flex-col">
-      <Navbar />
 
       {/* Hero Section */}
       <section className="flex flex-col-reverse md:flex-row items-center justify-between px-10 py-20 max-w-7xl mx-auto flex-grow">

@@ -1,9 +1,22 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-const Navbar = () => {
+const Navbar = ({ symbol, setSymbol }) => {
+  const [input, setInput] = useState(symbol);
+  const navigate = useNavigate();
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (input.trim()) {
+      setSymbol(input.trim().toUpperCase());
+      navigate("/trade");
+    }
+  };
+
   return (
-    <nav className="bg-gray-900 text-white shadow-lg py-3 rounded-md">
+    <nav className="bg-gray-900 text-white shadow-lg py-3">
       <div className="container mx-auto flex flex-col md:flex-row justify-between items-center gap-4 px-6">
         {/* Logo and Brand Name */}
         <div className="flex items-center gap-3">
@@ -13,19 +26,23 @@ const Navbar = () => {
           </h1>
         </div>
 
-        {/* Centered Search Bar */}
-        <div className="flex-grow w-full md:w-auto">
+        <form
+          onSubmit={handleSearch}
+          className="flex-grow w-full md:w-auto"
+        >
           <div className="relative mx-auto max-w-md">
             <input
               type="text"
-              placeholder="Search stocks..."
+              placeholder="Stock Symbol (e.g., ICICIBANK)"
+              value={input}
+              onChange={(e) => setInput(e.target.value.toUpperCase())}
               className="w-full px-4 py-2 rounded-full bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-400"
             />
-            <span className="absolute right-4 top-2.5 text-gray-400">
+            <button type="submit" className="absolute right-4 top-2.5 text-gray-400">
               🔍
-            </span>
+            </button>
           </div>
-        </div>
+        </form>
 
         {/* Navigation Links */}
         <ul className="flex gap-4 flex-wrap justify-center md:justify-end">
