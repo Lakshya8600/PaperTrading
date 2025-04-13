@@ -14,21 +14,29 @@ const Trade = ({ symbol }) => {
       const response = await fetch(url);
       const rawData = await response.json();
 
-      const dates = Object.values(rawData["('Date', '')"]);
+      const datetimeField =
+        interval === "1m" || interval === "5m" || interval === "1h"
+          ? rawData["('Datetime', '')"] || rawData["('Date', '')"]
+          : rawData["('Date', '')"];
+
+      const dates = Object.values(datetimeField || []);
+
       const closes = Object.values(rawData[`('Close', '${symbol}.NS')`]);
       const opens = Object.values(rawData[`('Open', '${symbol}.NS')`]);
       const highs = Object.values(rawData[`('High', '${symbol}.NS')`]);
       const lows = Object.values(rawData[`('Low', '${symbol}.NS')`]);
 
-      const candlestickData = dates.map((timestamp, index) => ({
-        x: new Date(timestamp),
-        y: [
-          opens[index],
-          highs[index],
-          lows[index],
-          closes[index],
-        ],
-      }));
+      const candlestickData = dates.map((timestamp, index) => {
+        const utcDate = new Date(timestamp);
+        const istOffset = 5.5 * 60 * 60 * 1000; // 5.5 hours in milliseconds
+        const istDate = new Date(utcDate.getTime() + istOffset);
+      
+        return {
+          x: istDate,
+          y: [opens[index], highs[index], lows[index], closes[index]],
+        };
+      });
+      
 
       setSeries([{ data: candlestickData }]);
     } catch (err) {
@@ -72,15 +80,17 @@ const Trade = ({ symbol }) => {
 
   return (
     <>
-  
+
       <div className="min-h-screen bg-gray-950 text-white px-4 py-12">
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8">
-         
+
           <select
             value={range}
             onChange={(e) => setRange(e.target.value)}
             className="px-4 py-2 rounded-md bg-gray-800 text-white border border-gray-600"
           >
+            <option value="1d">1 Day</option>
+            <option value="1wk">1 Week</option>
             <option value="1mo">1 Month</option>
             <option value="3mo">3 Months</option>
             <option value="6mo">6 Months</option>
@@ -91,6 +101,9 @@ const Trade = ({ symbol }) => {
             onChange={(e) => setInterval(e.target.value)}
             className="px-4 py-2 rounded-md bg-gray-800 text-white border border-gray-600"
           >
+            <option value="1m">1 Min</option>
+            <option value="5m">5 Min</option>
+            <option value="1h">1 hr</option>
             <option value="1d">1 Day</option>
             <option value="1wk">1 Week</option>
             <option value="1mo">1 Month</option>
