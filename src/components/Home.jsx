@@ -1,8 +1,16 @@
 import React from 'react';
 import Navbar from './Navbar';
 import { DotLottieReact } from '@lottiefiles/dotlottie-react';
+import { useLocalStorage } from 'usehooks-ts';
+
+import { useBalance } from "../hooks/useBalance"; 
+
+
 
 const Home = () => {
+  
+  const [balance, setBalance] = useBalance();
+
   return (
     <div className="bg-gray-950 text-white min-h-screen flex flex-col">
       <Navbar />
@@ -74,7 +82,7 @@ const Home = () => {
       {/* Call To Action */}
       <section className="text-center py-16 bg-gradient-to-br from-green-400 to-green-600 text-black">
         <h2 className="text-4xl font-bold mb-4">Ready to Master the Markets?</h2>
-        <p className="text-lg mb-6">Sign up now and start trading with ₹1,00,000 virtual money!</p>
+        <p className="text-lg mb-6">Sign up now and start trading with ₹100000 virtual money!</p>
         <a
           href="/login"
           className="bg-black text-green-400 px-6 py-3 rounded-full font-bold hover:bg-gray-900 transition"
