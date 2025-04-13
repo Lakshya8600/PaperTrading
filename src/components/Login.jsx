@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import Navbar from './Navbar';
 import InputField from './InputField';
 import { auth, googleProvider } from '../config/firebase';
 import { createUserWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
@@ -32,7 +31,6 @@ const Login = () => {
 
   return (
     <>
-      <Navbar />
       <div className="flex justify-center items-center min-h-screen bg-gray-950 text-white px-4 py-8">
         <div className="bg-gray-900 w-full max-w-md rounded-xl shadow-xl p-8 space-y-6">
           <h2 className="text-3xl font-bold text-center mb-4 text-green-400">

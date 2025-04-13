@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-
 import ApexChart from "react-apexcharts";
 
 const Trade = ({ symbol }) => {
@@ -42,7 +41,7 @@ const Trade = ({ symbol }) => {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [symbol, range, interval]);
 
   const options = {
     chart: {
@@ -73,11 +72,8 @@ const Trade = ({ symbol }) => {
 
   return (
     <>
-      
-      
-
+  
       <div className="min-h-screen bg-gray-950 text-white px-4 py-12">
-        {/* Search Controls */}
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8">
          
           <select
