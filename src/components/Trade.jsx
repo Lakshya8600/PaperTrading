@@ -1,28 +1,119 @@
-import React from "react";
-import Navbar from "./Navbar";
-import Footer from "./Footer";
+import React, { useEffect, useState } from "react";
 
+import ApexChart from "react-apexcharts";
 
+const Trade = ({ symbol }) => {
+  const [range, setRange] = useState("6mo");
+  const [interval, setInterval] = useState("1d");
+  const [series, setSeries] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-const Trade = () => {
-  
+  const fetchData = async () => {
+    try {
+      setLoading(true);
+      const url = `https://kumrawatyogesh.pythonanywhere.com/info/${symbol}/${range}/${interval}`;
+      const response = await fetch(url);
+      const rawData = await response.json();
 
+      const dates = Object.values(rawData["('Date', '')"]);
+      const closes = Object.values(rawData[`('Close', '${symbol}.NS')`]);
+      const opens = Object.values(rawData[`('Open', '${symbol}.NS')`]);
+      const highs = Object.values(rawData[`('High', '${symbol}.NS')`]);
+      const lows = Object.values(rawData[`('Low', '${symbol}.NS')`]);
+
+      const candlestickData = dates.map((timestamp, index) => ({
+        x: new Date(timestamp),
+        y: [
+          opens[index],
+          highs[index],
+          lows[index],
+          closes[index],
+        ],
+      }));
+
+      setSeries([{ data: candlestickData }]);
+    } catch (err) {
+      console.error("Error fetching chart:", err);
+      setSeries([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const options = {
+    chart: {
+      type: "candlestick",
+      height: 350,
+      toolbar: { show: false },
+    },
+    title: {
+      text: `${symbol} Candlestick Chart`,
+      align: "left",
+      style: { color: "#38bdf8" },
+    },
+    xaxis: {
+      type: "datetime",
+      labels: { style: { colors: "#d1d5db" } },
+    },
+    yaxis: {
+      tooltip: { enabled: true },
+      labels: {
+        style: { colors: "#d1d5db" },
+        formatter: (value) => Math.round(value), // Convert float to integer
+      },
+    },
+    theme: {
+      mode: "dark",
+    },
+  };
 
   return (
     <>
-      <Navbar />
+      
+      
 
       <div className="min-h-screen bg-gray-950 text-white px-4 py-12">
-        {/* Timeline buttons */}
-        <div className="flex justify-center items-center flex-wrap gap-4 mb-10">
-          {["1D", "1W", "1M", "1Y"].map((label, index) => (
-            <button
-              key={index}
-              className="px-5 py-2 rounded-lg bg-gradient-to-tr from-blue-500 to-cyan-400 text-white font-semibold text-lg shadow hover:shadow-lg transform hover:-translate-y-1 transition duration-300"
-            >
-              {label}
-            </button>
-          ))}
+        {/* Search Controls */}
+        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8">
+         
+          <select
+            value={range}
+            onChange={(e) => setRange(e.target.value)}
+            className="px-4 py-2 rounded-md bg-gray-800 text-white border border-gray-600"
+          >
+            <option value="1mo">1 Month</option>
+            <option value="3mo">3 Months</option>
+            <option value="6mo">6 Months</option>
+            <option value="1y">1 Year</option>
+          </select>
+          <select
+            value={interval}
+            onChange={(e) => setInterval(e.target.value)}
+            className="px-4 py-2 rounded-md bg-gray-800 text-white border border-gray-600"
+          >
+            <option value="1d">1 Day</option>
+            <option value="1wk">1 Week</option>
+            <option value="1mo">1 Month</option>
+          </select>
+          <button
+            onClick={fetchData}
+            className="px-5 py-2 rounded-lg bg-gradient-to-tr from-blue-500 to-cyan-400 text-white font-semibold transition hover:shadow-lg hover:-translate-y-1 duration-300"
+          >
+            Search
+          </button>
+        </div>
+
+        {/* Chart */}
+        <div className="bg-gray-900 p-4 rounded-xl shadow-xl mb-12">
+          {loading ? (
+            <p className="text-center text-gray-300">Loading chart...</p>
+          ) : (
+            <ApexChart options={options} series={series} type="candlestick" height={350} />
+          )}
         </div>
 
         {/* Trade Panel */}
@@ -30,7 +121,6 @@ const Trade = () => {
           <form className="bg-gray-900 p-8 rounded-xl shadow-xl w-full max-w-md space-y-6">
             <h2 className="text-3xl font-bold text-center text-green-400">Trade Panel</h2>
 
-            {/* Quantity Input */}
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-1">Quantity</label>
               <input
@@ -41,7 +131,6 @@ const Trade = () => {
               />
             </div>
 
-            {/* Price Input */}
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-1">Price</label>
               <input
@@ -52,7 +141,6 @@ const Trade = () => {
               />
             </div>
 
-            {/* Action Buttons */}
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-2">Action</label>
               <div className="flex rounded-full overflow-hidden border border-gray-700">
@@ -71,7 +159,6 @@ const Trade = () => {
               </div>
             </div>
 
-            {/* Submit Button */}
             <button
               type="submit"
               className="w-full bg-green-500 hover:bg-green-600 text-white py-3 rounded-lg font-semibold transition duration-300"
@@ -79,11 +166,11 @@ const Trade = () => {
               Submit Trade
             </button>
 
-            {/* Balance Info */}
             <p className="text-sm text-gray-400 text-left">Balance: ₹10,000</p>
           </form>
         </div>
       </div>
+
     </>
   );
 };
